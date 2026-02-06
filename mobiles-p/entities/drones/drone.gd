@@ -100,6 +100,21 @@ func build(structure_name : String, grid_coords: Vector2):
 	
 	build_finished.emit()
 
+func destroy(grid_coords: Vector2):
+	var pixel_coords : Vector2 = grid_coords * 100.0
+	
+	var space_state = get_world_2d().direct_space_state
+	var query = PhysicsPointQueryParameters2D.new()
+	query.position = pixel_coords
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+	var result = space_state.intersect_point(query)
+	
+	if result.size() > 0:
+		var collider = result[0].collider
+		if collider is Mineral:
+			collider.queue_free()
+
 func _on_button_pressed() -> void:
 	run_drone_program(code_edit.text, self)
 
