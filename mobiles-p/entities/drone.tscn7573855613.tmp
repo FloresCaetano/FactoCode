@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://j88bh6po088"]
+
+[ext_resource type="Texture2D" uid="uid://bpbccntnij524" path="res://assets/sprites/Drone.png" id="1_dil0n"]
+[ext_resource type="Script" uid="uid://cjpvsgn0bl38g" path="res://entities/drone.gd" id="1_knnud"]
+
+[node name="Drone" type="Node2D"]
+script = ExtResource("1_knnud")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("1_dil0n")
+
+[node name="CodeEdit" type="CodeEdit" parent="."]
+custom_minimum_size = Vector2(400, 500)
+offset_right = 8.0
+offset_bottom = 8.0
+theme_override_colors/line_number_color = Color(1, 1, 1, 0.78039217)
+scroll_smooth = true
+caret_blink = true
+gutters_draw_bookmarks = true
+gutters_draw_executing_lines = true
+gutters_draw_line_numbers = true
+code_completion_enabled = true
+indent_automatic = true
+
+[connection signal="code_completion_requested" from="CodeEdit" to="." method="_on_code_edit_code_completion_requested"]

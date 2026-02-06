@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bllpwsppr7qpc"]
+
+[ext_resource type="Texture2D" uid="uid://cu61xj7pkocim" path="res://assets/sprites/Barrier.png" id="1_qfl2k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qfl2k"]
+size = Vector2(100, 98)
+
+[node name="Barrier" type="StaticBody2D" unique_id=109805430]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=914283576]
+scale = Vector2(0.082, 0.182)
+texture = ExtResource("1_qfl2k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=351553253]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_qfl2k")

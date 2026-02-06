@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bjplqihi53swl"]
+
+[ext_resource type="Texture2D" uid="uid://b78fswg16e1vp" path="res://assets/sprites/insect.png" id="1_fwvyq"]
+[ext_resource type="Script" uid="uid://dxhhm1bbus0dj" path="res://entities/enemies/insect.gd" id="1_i2i8d"]
+[ext_resource type="Script" uid="uid://bg0impcah6pnb" path="res://shared/components/cmp_damage_hitbox.gd" id="3_vcbd1"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i2i8d"]
+radius = 32.0
+height = 202.0
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=739874131]
+script = ExtResource("1_i2i8d")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1245860407]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_fwvyq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1268827625]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_i2i8d")
+
+[node name="CMP_DamageHitbox" type="Node2D" parent="." unique_id=1990156741 node_paths=PackedStringArray("target", "collision_shape")]
+script = ExtResource("3_vcbd1")
+target = NodePath("..")
+collision_shape = NodePath("../CollisionShape2D")

@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://cwr7wc05kwfiw"]
+
+[ext_resource type="Script" uid="uid://d2ykmllkfhniv" path="res://structures/turret/turret.gd" id="1_6ew42"]
+[ext_resource type="Texture2D" uid="uid://dr8ehnd2wq5oa" path="res://assets/sprites/turret_base.png" id="2_02rmg"]
+[ext_resource type="Texture2D" uid="uid://b1qw5j37cewg0" path="res://assets/sprites/turret_top.png" id="3_x53l5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fowog"]
+size = Vector2(100, 100)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sae2r"]
+radius = 700.0
+
+[node name="Turret" type="StaticBody2D" unique_id=2111182110 node_paths=PackedStringArray("bullet_spawner", "sonnar", "top", "cooldown_timer")]
+script = ExtResource("1_6ew42")
+bullet_spawner = NodePath("Textures/top/BulletSpawner")
+sonnar = NodePath("Sonnar")
+top = NodePath("Textures/top")
+cooldown_timer = NodePath("CooldownTimer")
+
+[node name="Textures" type="Node2D" parent="." unique_id=695529098]
+position = Vector2(9.87, 0)
+scale = Vector2(0.8, 0.9)
+
+[node name="base" type="Sprite2D" parent="Textures" unique_id=1504036984]
+scale = Vector2(0.32, 0.291)
+texture = ExtResource("2_02rmg")
+
+[node name="top" type="Sprite2D" parent="Textures" unique_id=789705051]
+position = Vector2(-12.337499, 0)
+scale = Vector2(0.32, 0.291)
+texture = ExtResource("3_x53l5")
+offset = Vector2(38.554684, 0)
+
+[node name="BulletSpawner" type="Node2D" parent="Textures/top" unique_id=57553861]
+show_behind_parent = true
+position = Vector2(328.12497, 0)
+rotation = -1.5707964
+scale = Vector2(3.8182511, 3.9062498)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=977178746]
+shape = SubResource("RectangleShape2D_fowog")
+
+[node name="Sonnar" type="Area2D" parent="." unique_id=1332143915]
+
+[node name="DetectionRadious" type="CollisionShape2D" parent="Sonnar" unique_id=236886360]
+shape = SubResource("CircleShape2D_sae2r")
+
+[node name="CooldownTimer" type="Timer" parent="." unique_id=1559753803]
+one_shot = true
+
+[connection signal="body_entered" from="Sonnar" to="." method="_on_sonnar_body_entered"]

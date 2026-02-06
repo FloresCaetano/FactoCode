@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://j88bh6po088"]
+
+[ext_resource type="Texture2D" uid="uid://bpbccntnij524" path="res://assets/sprites/Drone.png" id="1_dil0n"]
+[ext_resource type="Script" uid="uid://cjpvsgn0bl38g" path="res://entities/drones/drone.gd" id="1_knnud"]
+[ext_resource type="Theme" uid="uid://cn0yt7d74gn8t" path="res://gui/SimpleBox.tres" id="3_psm6h"]
+
+[node name="Drone" type="Node2D" unique_id=274151409]
+script = ExtResource("1_knnud")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=800790648]
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("1_dil0n")
+
+[node name="Vbox" type="VBoxContainer" parent="." unique_id=1329162004]
+visible = false
+custom_minimum_size = Vector2(400, 500)
+offset_right = 400.0
+offset_bottom = 500.0
+
+[node name="Button" type="Button" parent="Vbox" unique_id=1785015452]
+layout_mode = 2
+theme = ExtResource("3_psm6h")
+text = "EXECUTE"
+
+[node name="CodeEdit" type="CodeEdit" parent="Vbox" unique_id=377446640]
+custom_minimum_size = Vector2(400, 500)
+layout_mode = 2
+theme = ExtResource("3_psm6h")
+theme_override_colors/line_number_color = Color(1, 1, 1, 0.78039217)
+scroll_smooth = true
+caret_blink = true
+gutters_draw_bookmarks = true
+gutters_draw_executing_lines = true
+gutters_draw_line_numbers = true
+code_completion_enabled = true
+indent_automatic = true
+
+[node name="Control" type="Control" parent="." unique_id=82588491]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="pressed" from="Vbox/Button" to="." method="_on_button_pressed"]
+[connection signal="code_completion_requested" from="Vbox/CodeEdit" to="." method="_on_code_edit_code_completion_requested"]
+[connection signal="gui_input" from="Control" to="." method="_on_control_gui_input"]

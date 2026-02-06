@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://l4s2abrexjtb"]
+
+[ext_resource type="Texture2D" uid="uid://0oo6a7216ou" path="res://assets/sprites/bullet.png" id="1_reqg2"]
+[ext_resource type="Script" uid="uid://ba47r6rddjqi4" path="res://structures/turret/bullet.gd" id="2_6wrvx"]
+[ext_resource type="Script" uid="uid://wwuxkfwgqrs0" path="res://shared/components/cmp_hitter.gd" id="3_6wrvx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ucvrq"]
+
+[node name="Bullet" type="Sprite2D" unique_id=279262429]
+texture = ExtResource("1_reqg2")
+script = ExtResource("2_6wrvx")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1337249207]
+
+[node name="CMP_Hitter" type="Area2D" parent="." unique_id=1735763240 node_paths=PackedStringArray("target")]
+script = ExtResource("3_6wrvx")
+target = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CMP_Hitter" unique_id=796315440]
+position = Vector2(0, 2)
+shape = SubResource("CircleShape2D_ucvrq")
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
