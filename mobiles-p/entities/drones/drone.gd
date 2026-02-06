@@ -3,12 +3,17 @@ extends Node2D
 @onready var code_edit: CodeEdit = $Vbox/CodeEdit
 
 @export var speed : float = 300
+@export var progress_bar: ProgressBar
+
+var extract_delay : float = 0.5
+var extract_amount : int = 1
 
 #SIGNALS
 signal move_finished
 signal build_finished
 
 func _ready() -> void:
+	progress_bar.visible = false
 	setup_highlighter()
 
 func run_drone_program(code: String, target_drone: Node2D):
@@ -45,6 +50,16 @@ func _on_code_edit_code_completion_requested() -> void:
 	# utilidades basicas
 	code_edit.add_code_completion_option(CodeEdit.KIND_FUNCTION, "print", "print()", Color.LIGHT_CORAL)
 	
+	# funciones del drone
+	code_edit.add_code_completion_option(CodeEdit.KIND_FUNCTION, "move", "move(grid_coords : Vector2)", Color.AQUAMARINE)
+	code_edit.add_code_completion_option(CodeEdit.KIND_FUNCTION, "build", "build(structure_name : String, grid_coords : Vector2)", Color.AQUAMARINE)
+	code_edit.add_code_completion_option(CodeEdit.KIND_FUNCTION, "extract", "extract(grid_coords : Vector2, amount : int)", Color.AQUAMARINE)
+	
+	# parametros de las funciones
+	code_edit.add_code_completion_option(CodeEdit.KIND_MEMBER, "grid_coords", "grid_coords", Color.CHARTREUSE)
+	code_edit.add_code_completion_option(CodeEdit.KIND_MEMBER, "structure_name", "structure_name", Color.CHARTREUSE)
+	code_edit.add_code_completion_option(CodeEdit.KIND_MEMBER, "amount", "amount", Color.CHARTREUSE)
+	
 	code_edit.update_code_completion_options(false)
 
 func setup_highlighter():
@@ -57,9 +72,16 @@ func setup_highlighter():
 	highlighter.add_keyword_color("if", Color.GREEN_YELLOW)
 	highlighter.add_keyword_color("elif", Color.GREEN_YELLOW)
 	highlighter.add_keyword_color("else", Color.GREEN_YELLOW)
+	highlighter.add_keyword_color("Vector2", Color.RED)
+	highlighter.add_keyword_color("return", Color.RED)
 	
 	highlighter.add_keyword_color("for", Color.ORANGE)
 	highlighter.add_keyword_color("while", Color.ORANGE)
+	
+	# parametros
+	highlighter.add_keyword_color("move()", Color.CHARTREUSE)
+	highlighter.add_keyword_color("build()", Color.CHARTREUSE)
+	highlighter.add_keyword_color("extract()", Color.CHARTREUSE)
 	
 	# numeros y strings
 	highlighter.number_color = Color.LIGHT_CORAL
@@ -76,7 +98,6 @@ func move(grid_coords: Vector2):
 	var time : float = distance / speed
 	
 	var tween : Tween = get_tree().create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	
 	await tween.tween_property(self, "global_position", pixel_coords, time).finished
 	move_finished.emit()
 
@@ -100,7 +121,10 @@ func build(structure_name : String, grid_coords: Vector2):
 	
 	build_finished.emit()
 
-func destroy(grid_coords: Vector2):
+func extract(grid_coords: Vector2, amount: int):
+	progress_bar.value = 0
+	progress_bar.visible = true
+
 	var pixel_coords : Vector2 = grid_coords * 100.0
 	
 	var space_state = get_world_2d().direct_space_state
@@ -111,9 +135,17 @@ func destroy(grid_coords: Vector2):
 	var result = space_state.intersect_point(query)
 	
 	if result.size() > 0:
+		
 		var collider = result[0].collider
+
 		if collider is Mineral:
-			collider.queue_free()
+			for i in amount:
+				var tween : Tween = get_tree().create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(progress_bar, "value", 100, extract_delay)
+				await tween.finished
+				collider.extract_mineral(extract_amount)
+				
+			progress_bar.visible = false
 
 func _on_button_pressed() -> void:
 	run_drone_program(code_edit.text, self)

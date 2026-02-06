@@ -4,8 +4,9 @@
 [ext_resource type="Script" uid="uid://cjpvsgn0bl38g" path="res://entities/drones/drone.gd" id="1_knnud"]
 [ext_resource type="Theme" uid="uid://cn0yt7d74gn8t" path="res://gui/SimpleBox.tres" id="3_psm6h"]
 
-[node name="Drone" type="Node2D" unique_id=274151409]
+[node name="Drone" type="Node2D" unique_id=274151409 node_paths=PackedStringArray("progress_bar")]
 script = ExtResource("1_knnud")
+progress_bar = NodePath("ProgressBar")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=800790648]
 scale = Vector2(0.15, 0.15)
@@ -49,6 +50,21 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1525653849]
+custom_minimum_size = Vector2(100, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -20.0
+offset_right = 50.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_psm6h")
 
 [connection signal="pressed" from="Vbox/Button" to="." method="_on_button_pressed"]
 [connection signal="code_completion_requested" from="Vbox/CodeEdit" to="." method="_on_code_edit_code_completion_requested"]
