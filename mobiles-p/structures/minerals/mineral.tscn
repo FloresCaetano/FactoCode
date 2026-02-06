@@ -4,9 +4,11 @@
 [ext_resource type="Script" uid="uid://ikqq64p4owxm" path="res://structures/minerals/mineral.gd" id="1_x22rq"]
 [ext_resource type="Texture2D" uid="uid://c15ckm658rb0w" path="res://assets/sprites/BlueMineral.png" id="2_ub4gs"]
 
-[node name="Mineral" type="Node2D" unique_id=1126198289 node_paths=PackedStringArray("sprite_2d")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k0vkj"]
+size = Vector2(252, 156)
+
+[node name="Mineral" type="StaticBody2D" unique_id=1073797083 node_paths=PackedStringArray("sprite_2d")]
 script = ExtResource("1_x22rq")
-mineral_type = "brown_mineral"
 blue_mineral = ExtResource("2_ub4gs")
 brown_mineral = ExtResource("1_tscji")
 sprite_2d = NodePath("Sprite2D")
@@ -14,3 +16,7 @@ sprite_2d = NodePath("Sprite2D")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2072889889]
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("1_tscji")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1695886215]
+position = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_k0vkj")

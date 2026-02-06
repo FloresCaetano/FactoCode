@@ -24,6 +24,7 @@ config/icon="res://icon.svg"
 PythonTranspiler="*res://core/transpiler/python_transpiler.gd"
 GLOBAL="*uid://cw13pjvfi837d"
 PATHS="*uid://be33qsf56e4iq"
+ExperimentalTranspiler="*uid://clxr1ut81no4x"
 
 [display]
 

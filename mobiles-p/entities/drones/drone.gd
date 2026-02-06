@@ -1,23 +1,42 @@
+class_name Drone
 extends Node2D
 
 @onready var code_edit: CodeEdit = $Vbox/CodeEdit
 
 @export var speed : float = 300
 @export var progress_bar: ProgressBar
+@export var feedback_line: RichTextLabel
 
-var extract_delay : float = 0.5
+var extract_delay : float = 3.0
 var extract_amount : int = 1
+
+var vars = {}
 
 #SIGNALS
 signal move_finished
 signal build_finished
+signal extract_finished
 
 func _ready() -> void:
 	progress_bar.visible = false
 	setup_highlighter()
 
 func run_drone_program(code: String, target_drone: Node2D):
-	var script = PythonTranspiler.transpilar(code)
+	#var script = await PythonTranspiler.transpilar(code)
+	var script = ExperimentalTranspiler.transpilar(code)
+	
+	# Mostrar retroalimentación
+	if PythonTranspiler.last_status == "success":
+		feedback_line.text = "[color=green]" + PythonTranspiler.last_feedback + "[/color]"
+	else:
+		var error_msg = PythonTranspiler.last_feedback
+		if PythonTranspiler.last_error_line > 0:
+			error_msg = "Línea " + str(PythonTranspiler.last_error_line) + ": " + error_msg
+		feedback_line.text = "[color=red]" + error_msg + "[/color]"
+	
+	if script == null:
+		return
+	
 	var brain = Node.new()
 	brain.set_script(script)
 	
@@ -126,6 +145,7 @@ func extract(grid_coords: Vector2, amount: int):
 	progress_bar.visible = true
 
 	var pixel_coords : Vector2 = grid_coords * 100.0
+	await move(grid_coords)
 	
 	var space_state = get_world_2d().direct_space_state
 	var query = PhysicsPointQueryParameters2D.new()
@@ -140,12 +160,16 @@ func extract(grid_coords: Vector2, amount: int):
 
 		if collider is Mineral:
 			for i in amount:
+				progress_bar.value = 0
 				var tween : Tween = get_tree().create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 				tween.tween_property(progress_bar, "value", 100, extract_delay)
+				print("Extrayendo mineral... " + str(i+1) + "/" + str(amount))
 				await tween.finished
 				collider.extract_mineral(extract_amount)
 				
 			progress_bar.visible = false
+			emit_signal("extract_finished")
+			extract_finished.emit()
 
 func _on_button_pressed() -> void:
 	run_drone_program(code_edit.text, self)

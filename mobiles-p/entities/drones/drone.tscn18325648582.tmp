@@ -4,22 +4,10 @@
 [ext_resource type="Script" uid="uid://cjpvsgn0bl38g" path="res://entities/drones/drone.gd" id="1_knnud"]
 [ext_resource type="Theme" uid="uid://cn0yt7d74gn8t" path="res://gui/SimpleBox.tres" id="3_psm6h"]
 
-[sub_resource type="StyleBoxFlat" id="36"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
-bg_color = Color(0.278431, 0.231373, 0.470588, 1)
-border_color = Color(0.301961, 0.65098, 1, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[node name="Drone" type="Node2D" unique_id=274151409 node_paths=PackedStringArray("progress_bar", "feedback_line")]
+[node name="Drone" type="Node2D" unique_id=274151409 node_paths=PackedStringArray("progress_bar")]
 script = ExtResource("1_knnud")
+speed = null
 progress_bar = NodePath("ProgressBar")
-feedback_line = NodePath("Vbox/FeedbackLine")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=800790648]
 scale = Vector2(0.15, 0.15)
@@ -48,13 +36,6 @@ gutters_draw_executing_lines = true
 gutters_draw_line_numbers = true
 code_completion_enabled = true
 indent_automatic = true
-
-[node name="FeedbackLine" type="RichTextLabel" parent="Vbox" unique_id=775085282]
-custom_minimum_size = Vector2(0, 65)
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/normal = SubResource("36")
-autowrap_mode = 2
 
 [node name="Control" type="Control" parent="." unique_id=82588491]
 custom_minimum_size = Vector2(100, 100)

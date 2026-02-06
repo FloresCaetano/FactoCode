@@ -2,7 +2,7 @@ class_name Core
 extends StaticBody2D
 
 func _ready() -> void:
-    GLOBAL.PATHS.core = self
+    PATHS.core = self
 
 var inventory : Dictionary = {
     GLOBAL.mineral_names[0]: 0,
