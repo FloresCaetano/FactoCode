@@ -48,4 +48,8 @@ shape = SubResource("CircleShape2D_sae2r")
 [node name="CooldownTimer" type="Timer" parent="." unique_id=1559753803]
 one_shot = true
 
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=560509455]
+position = Vector2(1, -1)
+vertices = PackedVector2Array(-51, -49, 49, -49, 49, 51, -51, 51)
+
 [connection signal="body_entered" from="Sonnar" to="." method="_on_sonnar_body_entered"]

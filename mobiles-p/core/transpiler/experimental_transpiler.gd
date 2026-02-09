@@ -4,7 +4,18 @@ extends Node
 const BASE_TEMPLATE = """
 extends Node
 
-var drone # Referencia al dron
+var {TARGET_VAR} # Referencia al objetivo
+
+func _base_has_material(name):
+	if name == "turret":
+		name = "turrets"
+	elif name == "barrier":
+		name = "barriers"
+	elif name == "mineral_marron":
+		name = "brown_mineral"
+	elif name == "mineral_azul":
+		name = "blue_mineral"
+	return PATHS.core.inventory.get(name, 0)
 
 func _run_code():
 {USER_CODE}
@@ -22,16 +33,23 @@ const SECURITY_BLACKLIST = [
 	"Engine."
 ]
 
-# Funciones permitidas del drone
+# Funciones permitidas segun el objetivo
+const TARGET_DRONE = "drone"
+const TARGET_CORE = "core"
 const DRONE_FUNCTIONS = ["move", "build", "extract"]
+const CORE_FUNCTIONS = ["craft_drone"]
 const ALLOWED_FUNCTIONS = ["print", "range", "len", "int", "float", "str", "abs", "min", "max"]
 
 var _compiled_script: GDScript = null
 var last_status: String = ""
 var last_feedback: String = ""
 var last_error_line: int = -1
+var _target_type: String = TARGET_DRONE
+var _target_var: String = TARGET_DRONE
+var _target_functions: Array = DRONE_FUNCTIONS
 
-func transpilar(user_text: String) -> GDScript:
+func transpilar(user_text: String, target_type: String = TARGET_DRONE) -> GDScript:
+	_set_target_context(target_type)
 	var result = transpile(user_text)
 	
 	# Guardar información de retroalimentación
@@ -58,6 +76,7 @@ func transpilar(user_text: String) -> GDScript:
 		var indented_code = "\n".join(indented_lines)
 		
 		var full_code = BASE_TEMPLATE.replace("{USER_CODE}", indented_code)
+		full_code = full_code.replace("{TARGET_VAR}", _target_var)
 		
 		var script = GDScript.new()
 		script.source_code = full_code
@@ -146,7 +165,7 @@ func transpile(source_code: String) -> Dictionary:
 			control_stack.push_back({"type": "loop", "indent": indent_level})
 			transpiled_lines.append(tabs + processed.code)
 			# Añadir await para evitar bloqueos en loops
-			transpiled_lines.append(tabs + "\t" + "await drone.get_tree().create_timer(0.01).timeout")
+			transpiled_lines.append(tabs + "\t" + "await " + _target_var + ".get_tree().create_timer(0.01).timeout")
 		elif stripped.begins_with("if ") or stripped.begins_with("elif ") or stripped.begins_with("else"):
 			# No necesitan await
 			transpiled_lines.append(tabs + processed.code)
@@ -208,10 +227,10 @@ func process_line(line: String, _line_number: int) -> Dictionary:
 		result.success = true
 		return result
 	
-	# Funciones del drone (move, build, extract)
-	for func_name in DRONE_FUNCTIONS:
+	# Funciones del objetivo
+	for func_name in _target_functions:
 		if line.begins_with(func_name + "("):
-			var transformed = transform_drone_function(line, func_name)
+			var transformed = transform_target_function(line, func_name)
 			if transformed.success:
 				result = transformed
 				return result
@@ -222,7 +241,7 @@ func process_line(line: String, _line_number: int) -> Dictionary:
 	if line.begins_with("print("):
 		var args = extract_function_args(line, "print")
 		var transformed_args = transform_expression(args)
-		result.code = "drone.print(" + transformed_args + ")"
+		result.code = "print(" + transformed_args + ")"
 		result.success = true
 		return result
 	
@@ -261,7 +280,7 @@ func process_line(line: String, _line_number: int) -> Dictionary:
 	result.success = true
 	return result
 
-func transform_drone_function(line: String, func_name: String) -> Dictionary:
+func transform_target_function(line: String, func_name: String) -> Dictionary:
 	var result = {"success": false, "code": "", "error": ""}
 	var args = extract_function_args(line, func_name)
 	
@@ -269,7 +288,7 @@ func transform_drone_function(line: String, func_name: String) -> Dictionary:
 		"move":
 			# move(Vector2(...))
 			var transformed_args = transform_expression(args)
-			result.code = "drone.move(" + transformed_args + "); await drone.move_finished"
+			result.code = _target_var + ".move(" + transformed_args + "); await " + _target_var + ".move_finished"
 		
 		"build":
 			# build("nombre", Vector2(...))
@@ -277,7 +296,7 @@ func transform_drone_function(line: String, func_name: String) -> Dictionary:
 			if parts.size() == 2:
 				var _name = parts[0]
 				var pos = transform_expression(parts[1])
-				result.code = "drone.build(" + _name + ", " + pos + "); await drone.build_finished"
+				result.code = _target_var + ".build(" + _name + ", " + pos + "); await " + _target_var + ".build_finished"
 			else:
 				result.error = "build() requiere 2 argumentos (nombre, Vector2)"
 				return result
@@ -288,10 +307,13 @@ func transform_drone_function(line: String, func_name: String) -> Dictionary:
 			if parts.size() == 2:
 				var pos = transform_expression(parts[0])
 				var cantidad = transform_expression(parts[1])
-				result.code = "drone.extract(" + pos + ", " + cantidad + "); await drone.extract_finished"
+				result.code = _target_var + ".extract(" + pos + ", " + cantidad + "); await " + _target_var + ".extract_finished"
 			else:
 				result.error = "extract() requiere 2 argumentos (Vector2, cantidad)"
 				return result
+        
+		"craft_drone":
+			result.code = "await " + _target_var + ".craft_drone()"
 	
 	result.success = true
 	return result
@@ -328,9 +350,9 @@ func transform_assignment(line: String) -> Dictionary:
 	
 	# Generar código
 	if operator == "=":
-		result.code = 'drone.vars["' + var_name + '"] = ' + transformed_value
+		result.code = _target_var + '.vars["' + var_name + '"] = ' + transformed_value
 	else:
-		result.code = 'drone.vars["' + var_name + '"] ' + operator + ' ' + transformed_value
+		result.code = _target_var + '.vars["' + var_name + '"] ' + operator + ' ' + transformed_value
 	
 	result.success = true
 	return result
@@ -338,6 +360,7 @@ func transform_assignment(line: String) -> Dictionary:
 func transform_expression(expr: String) -> String:
 	# Transformar variables a acceso al diccionario
 	expr = expr.strip_edges()
+	expr = replace_base_has_material(expr)
 	
 	# Si es un literal (número, string, booleano), no transformar
 	if is_literal(expr):
@@ -376,13 +399,13 @@ func transform_expression(expr: String) -> String:
 				var property = parts[1] if parts.size() > 1 else ""
 				
 				if is_valid_variable_name(var_name):
-					# Es una variable con propiedad: variable.x -> drone.vars["variable"].x
-					transformed = 'drone.vars["' + var_name + '"].' + property
+					# Es una variable con propiedad: variable.x -> target.vars["variable"].x
+					transformed = _target_var + '.vars["' + var_name + '"].' + property
 				else:
 					transformed = token
 			elif is_valid_variable_name(token):
 				# Es una variable simple, transformar a acceso al diccionario
-				transformed = 'drone.vars["' + token + '"]'
+				transformed = _target_var + '.vars["' + token + '"]'
 			else:
 				transformed = token
 		
@@ -398,6 +421,11 @@ func transform_expression(expr: String) -> String:
 		result += transformed
 	
 	return result
+
+func replace_base_has_material(expr: String) -> String:
+	var regex = RegEx.new()
+	regex.compile(r"\bbase\.has_material\s*\(")
+	return regex.sub(expr, "_base_has_material(", true)
 
 func tokenize_expression(expr: String) -> Array:
 	var tokens = []
@@ -630,3 +658,14 @@ func check_security(code: String) -> Dictionary:
 			return result
 	
 	return result
+
+func _set_target_context(target_type: String) -> void:
+	match target_type:
+		TARGET_CORE:
+			_target_type = TARGET_CORE
+			_target_var = TARGET_CORE
+			_target_functions = CORE_FUNCTIONS
+		_:
+			_target_type = TARGET_DRONE
+			_target_var = TARGET_DRONE
+			_target_functions = DRONE_FUNCTIONS

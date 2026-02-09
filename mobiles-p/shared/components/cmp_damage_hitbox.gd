@@ -5,7 +5,10 @@ extends Node2D
 
 func receive_damage(damage : float):
 	target.life -= damage
-	print(target.life)
+	if target.life <= 0:
+		if target.has_signal("dead"):
+			target.dead.emit()
+		target.queue_free()
 
 func _ready() -> void:
 	if collision_shape:

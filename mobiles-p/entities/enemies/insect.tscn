@@ -5,15 +5,24 @@
 [ext_resource type="Script" uid="uid://bg0impcah6pnb" path="res://shared/components/cmp_damage_hitbox.gd" id="3_vcbd1"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i2i8d"]
-radius = 32.0
-height = 202.0
+radius = 34.0
+height = 204.0
 
-[node name="CharacterBody2D" type="CharacterBody2D" unique_id=739874131]
+[sub_resource type="CircleShape2D" id="CircleShape2D_vcbd1"]
+radius = 1000.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vcbd1"]
+radius = 45.3
+height = 224.9
+
+[node name="Insect" type="CharacterBody2D" unique_id=739874131 node_paths=PackedStringArray("rotatable_nodes")]
 script = ExtResource("1_i2i8d")
+rotatable_nodes = [NodePath("Sprite2D")]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1245860407]
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("1_fwvyq")
+flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1268827625]
 rotation = 1.5707964
@@ -23,3 +32,27 @@ shape = SubResource("CapsuleShape2D_i2i8d")
 script = ExtResource("3_vcbd1")
 target = NodePath("..")
 collision_shape = NodePath("../CollisionShape2D")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1725685468]
+path_postprocessing = 1
+avoidance_enabled = true
+debug_enabled = true
+
+[node name="SearchArea" type="Area2D" parent="." unique_id=1761702184]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SearchArea" unique_id=2010652743]
+shape = SubResource("CircleShape2D_vcbd1")
+
+[node name="AttackTimer" type="Timer" parent="." unique_id=35369463]
+one_shot = true
+
+[node name="CollisionDetector" type="Area2D" parent="." unique_id=1212999634]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionDetector" unique_id=1233849178]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_vcbd1")
+
+[connection signal="target_reached" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_target_reached"]
+[connection signal="body_entered" from="SearchArea" to="." method="_on_search_area_body_entered"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="body_entered" from="CollisionDetector" to="." method="_on_collision_detector_body_entered"]

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://l30u4icuhphp"]
+
+[ext_resource type="Theme" uid="uid://cn0yt7d74gn8t" path="res://gui/SimpleBox.tres" id="1_aid3l"]
+
+[node name="ProgressBar" type="ProgressBar" unique_id=1594695901]
+custom_minimum_size = Vector2(100, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -20.0
+offset_right = 50.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_aid3l")

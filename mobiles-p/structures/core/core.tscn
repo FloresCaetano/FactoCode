@@ -2,12 +2,28 @@
 
 [ext_resource type="Script" uid="uid://drj2di8o02rut" path="res://structures/core/core.gd" id="1_spwri"]
 [ext_resource type="Texture2D" uid="uid://c6nggcnas7io0" path="res://assets/sprites/Core.png" id="2_euq0h"]
+[ext_resource type="Theme" uid="uid://cn0yt7d74gn8t" path="res://gui/SimpleBox.tres" id="3_euq0h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5634n"]
 size = Vector2(300, 300)
 
-[node name="Core" type="StaticBody2D" unique_id=2111182110]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rg714"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.278431, 0.231373, 0.470588, 1)
+border_color = Color(0.301961, 0.65098, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="Core" type="StaticBody2D" unique_id=2111182110 node_paths=PackedStringArray("code_edit", "feedback_line")]
 script = ExtResource("1_spwri")
+code_edit = NodePath("Vbox/CodeEdit")
+feedback_line = NodePath("Vbox/FeedbackLine")
+health = 1000
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1504036984]
 scale = Vector2(0.32, 0.291)
@@ -15,3 +31,53 @@ texture = ExtResource("2_euq0h")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2105161800]
 shape = SubResource("RectangleShape2D_5634n")
+
+[node name="Vbox" type="VBoxContainer" parent="." unique_id=2088425714]
+visible = false
+custom_minimum_size = Vector2(400, 500)
+offset_right = 400.0
+offset_bottom = 500.0
+
+[node name="Button" type="Button" parent="Vbox" unique_id=1140810826]
+layout_mode = 2
+theme = ExtResource("3_euq0h")
+text = "EXECUTE"
+
+[node name="CodeEdit" type="CodeEdit" parent="Vbox" unique_id=1920790334]
+custom_minimum_size = Vector2(400, 500)
+layout_mode = 2
+theme = ExtResource("3_euq0h")
+theme_override_colors/line_number_color = Color(1, 1, 1, 0.78039217)
+scroll_smooth = true
+caret_blink = true
+gutters_draw_bookmarks = true
+gutters_draw_executing_lines = true
+gutters_draw_line_numbers = true
+code_completion_enabled = true
+indent_automatic = true
+
+[node name="FeedbackLine" type="RichTextLabel" parent="Vbox" unique_id=1758031199]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_rg714")
+autowrap_mode = 2
+
+[node name="Control" type="Control" parent="." unique_id=1063721396]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -152.0
+offset_top = -152.0
+offset_right = 152.0
+offset_bottom = 152.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CraftDroneDelay" type="Timer" parent="." unique_id=936610013]
+one_shot = true
+
+[connection signal="pressed" from="Vbox/Button" to="." method="_on_button_pressed"]
+[connection signal="gui_input" from="Control" to="." method="_on_control_gui_input"]

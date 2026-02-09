@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://bo7fswakyq6n8"]
+
+[ext_resource type="Texture2D" uid="uid://c15ckm658rb0w" path="res://assets/sprites/BlueMineral.png" id="1_hp187"]
+[ext_resource type="Script" uid="uid://8ndf8vdrsgc5" path="res://gui/inventory_viewer.gd" id="1_ytf3d"]
+[ext_resource type="Theme" uid="uid://cn0yt7d74gn8t" path="res://gui/SimpleBox.tres" id="2_ytf3d"]
+[ext_resource type="Texture2D" uid="uid://bxro0k7vyvgbm" path="res://assets/sprites/BrownMineral.png" id="3_bk7cs"]
+[ext_resource type="Texture2D" uid="uid://b1qw5j37cewg0" path="res://assets/sprites/turret_top.png" id="4_kvi6p"]
+[ext_resource type="Texture2D" uid="uid://cu61xj7pkocim" path="res://assets/sprites/Barrier.png" id="5_xqkfk"]
+
+[node name="GUI" type="CanvasLayer" unique_id=1947475055]
+
+[node name="InventoryViewer" type="VBoxContainer" parent="." unique_id=1298879135]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_ytf3d")
+
+[node name="BrownMineral" type="HSplitContainer" parent="InventoryViewer" unique_id=1280138507]
+layout_mode = 2
+dragging_enabled = false
+dragger_visibility = 1
+
+[node name="TextureRect" type="TextureRect" parent="InventoryViewer/BrownMineral" unique_id=1903424012]
+custom_minimum_size = Vector2(100, 60)
+layout_mode = 2
+texture = ExtResource("1_hp187")
+expand_mode = 1
+
+[node name="LblBlue" type="Label" parent="InventoryViewer/BrownMineral" unique_id=1426800201]
+layout_mode = 2
+theme = ExtResource("2_ytf3d")
+
+[node name="BlueMineral" type="HSplitContainer" parent="InventoryViewer" unique_id=742967812]
+layout_mode = 2
+dragging_enabled = false
+dragger_visibility = 1
+
+[node name="TextureRect" type="TextureRect" parent="InventoryViewer/BlueMineral" unique_id=349073162]
+custom_minimum_size = Vector2(100, 60)
+layout_mode = 2
+texture = ExtResource("3_bk7cs")
+expand_mode = 1
+
+[node name="LblBrown" type="Label" parent="InventoryViewer/BlueMineral" unique_id=1137362409]
+layout_mode = 2
+theme = ExtResource("2_ytf3d")
+
+[node name="Turrets" type="HSplitContainer" parent="InventoryViewer" unique_id=543001354]
+layout_mode = 2
+split_offsets = PackedInt32Array(100)
+dragging_enabled = false
+dragger_visibility = 1
+split_offset = 100
+
+[node name="TextureRect2" type="TextureRect" parent="InventoryViewer/Turrets" unique_id=2019114404]
+custom_minimum_size = Vector2(100, 60)
+layout_mode = 2
+texture = ExtResource("4_kvi6p")
+expand_mode = 1
+
+[node name="LblTurrets" type="Label" parent="InventoryViewer/Turrets" unique_id=264334114]
+layout_mode = 2
+theme = ExtResource("2_ytf3d")
+
+[node name="Barriers" type="HSplitContainer" parent="InventoryViewer" unique_id=395946585]
+layout_mode = 2
+dragging_enabled = false
+dragger_visibility = 1
+
+[node name="TextureRect" type="TextureRect" parent="InventoryViewer/Barriers" unique_id=842960399]
+custom_minimum_size = Vector2(100, 60)
+layout_mode = 2
+texture = ExtResource("5_xqkfk")
+expand_mode = 1
+
+[node name="LblBarriers" type="Label" parent="InventoryViewer/Barriers" unique_id=1501485842]
+layout_mode = 2
+theme = ExtResource("2_ytf3d")

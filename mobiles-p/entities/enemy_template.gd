@@ -6,6 +6,9 @@ var strenght : float = 10
 
 signal dead
 
-func _physics_process(delta: float) -> void:
+
+func take_damage(amount: float) -> void:
+	life -= amount
 	if life <= 0:
+		dead.emit()
 		queue_free()

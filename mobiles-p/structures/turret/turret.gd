@@ -1,5 +1,5 @@
 class_name Turret
-extends StaticBody2D
+extends Structure
 
 var bullet_speed : float = 20
 var bullet_damage : float = 35
@@ -21,7 +21,7 @@ func shoot():
 	bullet.damage = bullet_damage
 	cooldown_timer.start(cooldown)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if enemies.size() != 0 and not active_target:
 		active_target = enemies.pop_back()
 		active_target.dead.connect(_on_enemy_dead)

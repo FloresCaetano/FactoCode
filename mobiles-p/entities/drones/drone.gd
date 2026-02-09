@@ -1,6 +1,6 @@
 class_name Drone
-extends Node2D
-
+extends StaticBody2D
+@onready var gpuparticles_2d: GPUParticles2D = $GPUParticles2D
 @onready var code_edit: CodeEdit = $Vbox/CodeEdit
 
 @export var speed : float = 300
@@ -13,9 +13,9 @@ var extract_amount : int = 1
 var vars = {}
 
 #SIGNALS
-signal move_finished
-signal build_finished
-signal extract_finished
+signal move_finished(to : Vector2)
+signal build_finished(structure_name : String, at : Vector2)
+signal extract_finished(from : Vector2, amount : int)
 
 func _ready() -> void:
 	progress_bar.visible = false
@@ -23,7 +23,7 @@ func _ready() -> void:
 
 func run_drone_program(code: String, target_drone: Node2D):
 	#var script = await PythonTranspiler.transpilar(code)
-	var script = ExperimentalTranspiler.transpilar(code)
+	var script = ExperimentalTranspiler.transpilar(code, "drone")
 	
 	# Mostrar retroalimentación
 	if PythonTranspiler.last_status == "success":
@@ -73,6 +73,7 @@ func _on_code_edit_code_completion_requested() -> void:
 	code_edit.add_code_completion_option(CodeEdit.KIND_FUNCTION, "move", "move(grid_coords : Vector2)", Color.AQUAMARINE)
 	code_edit.add_code_completion_option(CodeEdit.KIND_FUNCTION, "build", "build(structure_name : String, grid_coords : Vector2)", Color.AQUAMARINE)
 	code_edit.add_code_completion_option(CodeEdit.KIND_FUNCTION, "extract", "extract(grid_coords : Vector2, amount : int)", Color.AQUAMARINE)
+	code_edit.add_code_completion_option(CodeEdit.KIND_FUNCTION, "base.has_material", "base.has_material(\"brown_mineral\")", Color.AQUAMARINE)
 	
 	# parametros de las funciones
 	code_edit.add_code_completion_option(CodeEdit.KIND_MEMBER, "grid_coords", "grid_coords", Color.CHARTREUSE)
@@ -101,6 +102,8 @@ func setup_highlighter():
 	highlighter.add_keyword_color("move()", Color.CHARTREUSE)
 	highlighter.add_keyword_color("build()", Color.CHARTREUSE)
 	highlighter.add_keyword_color("extract()", Color.CHARTREUSE)
+	highlighter.add_keyword_color("base", Color.CHARTREUSE)
+	highlighter.add_keyword_color("has_material", Color.CHARTREUSE)
 	
 	# numeros y strings
 	highlighter.number_color = Color.LIGHT_CORAL
@@ -118,11 +121,15 @@ func move(grid_coords: Vector2):
 	
 	var tween : Tween = get_tree().create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	await tween.tween_property(self, "global_position", pixel_coords, time).finished
-	move_finished.emit()
+	move_finished.emit(pixel_coords)
 
 func build(structure_name : String, grid_coords: Vector2):
 	var pixel_coords : Vector2 = grid_coords * 100.0
 	
+	if not PATHS.core.craft_structure(structure_name):
+		feedback_line.text = "[color=red]No tienes los recursos necesarios para construir " + structure_name + "[/color]"
+		return
+
 	var structure_uid : String = ""
 	match  structure_name:
 		"torreta":
@@ -138,7 +145,7 @@ func build(structure_name : String, grid_coords: Vector2):
 	add_sibling(structure)
 	structure.global_position = pixel_coords
 	
-	build_finished.emit()
+	build_finished.emit(structure_name, grid_coords)
 
 func extract(grid_coords: Vector2, amount: int):
 	progress_bar.value = 0
@@ -168,8 +175,7 @@ func extract(grid_coords: Vector2, amount: int):
 				collider.extract_mineral(extract_amount)
 				
 			progress_bar.visible = false
-			emit_signal("extract_finished")
-			extract_finished.emit()
+			extract_finished.emit(grid_coords)
 
 func _on_button_pressed() -> void:
 	run_drone_program(code_edit.text, self)
@@ -180,3 +186,6 @@ func _on_control_gui_input(event: InputEvent) -> void:
 			$Vbox.visible = true
 		else:
 			$Vbox.visible = false
+
+func shoot_particles():
+	gpuparticles_2d.restart()
