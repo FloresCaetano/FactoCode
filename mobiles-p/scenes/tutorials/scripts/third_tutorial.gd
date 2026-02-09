@@ -17,6 +17,7 @@ var narrator_lines : Array[String] = [
 
 func _ready() -> void:
 	await get_tree().process_frame
+	load_tutorial()
 	PATHS.narrator.start_dialog(narrator_lines)
 	for drone in drones:
 		drone.build_finished.connect(check_build_finished)
@@ -29,3 +30,4 @@ func check_build_finished(structure_name : String, grid_coords : Vector2) -> voi
 			"Increible!, ahora ya sabes usar condicionales para que el dron ejecute diferentes acciones dependiendo de la situación. Esto es fundamental para poder enfrentar el desafio de combate, donde tendrás que tomar decisiones en tiempo real para proteger la base.",
             "Estas un paso mas cerca de la automatizacion total de la base, pero antes de eso, vamos a aprender a usar bucles para poder repetir acciones sin tener que escribir el mismo código una y otra vez."
 		])
+		tutorial_completed()

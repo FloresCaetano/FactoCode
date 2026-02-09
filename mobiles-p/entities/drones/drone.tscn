@@ -5,6 +5,7 @@
 [ext_resource type="Theme" uid="uid://cn0yt7d74gn8t" path="res://gui/SimpleBox.tres" id="3_psm6h"]
 [ext_resource type="PackedScene" uid="uid://l30u4icuhphp" path="res://shared/components/progress_bar/progress_bar.tscn" id="4_tjytp"]
 [ext_resource type="Texture2D" uid="uid://ds10yvodbwe1h" path="res://shared/VFX/confetti/confetti.png" id="5_1rn41"]
+[ext_resource type="Script" uid="uid://d2b6lit8g2d6" path="res://shared/components/ia_helper.gd" id="5_c31bm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1rn41"]
 radius = 42.0
@@ -94,7 +95,6 @@ scale = Vector2(0.15, 0.15)
 texture = ExtResource("1_dil0n")
 
 [node name="Vbox" type="VBoxContainer" parent="." unique_id=1329162004]
-visible = false
 custom_minimum_size = Vector2(400, 500)
 offset_right = 400.0
 offset_bottom = 500.0
@@ -116,6 +116,17 @@ gutters_draw_executing_lines = true
 gutters_draw_line_numbers = true
 code_completion_enabled = true
 indent_automatic = true
+
+[node name="Ia" type="HBoxContainer" parent="Vbox" unique_id=242179082]
+layout_mode = 2
+alignment = 2
+script = ExtResource("5_c31bm")
+
+[node name="IaHelperButton" type="Button" parent="Vbox/Ia" unique_id=1873036645]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("3_psm6h")
+text = "IA Helper"
 
 [node name="FeedbackLine" type="RichTextLabel" parent="Vbox" unique_id=775085282]
 custom_minimum_size = Vector2(0, 65)

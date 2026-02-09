@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cm1xrajqgy8w8"]
+
+[ext_resource type="Script" uid="uid://dy5km4qthc16n" path="res://scenes/tutorials/scripts/third_tutorial.gd" id="1_t3xa2"]
+[ext_resource type="PackedScene" uid="uid://jd4aaib0o04u" path="res://scenes/tutorials/scenes/forth_tutorial.tscn" id="2_d2khj"]
+
+[node name="ThirdTutorial" type="Node" unique_id=662732585]
+script = ExtResource("1_t3xa2")
+next_tutorial_scene = ExtResource("2_d2khj")

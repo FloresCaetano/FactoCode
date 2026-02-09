@@ -15,7 +15,7 @@ var vars = {}
 #SIGNALS
 signal move_finished(to : Vector2)
 signal build_finished(structure_name : String, at : Vector2)
-signal extract_finished(from : Vector2, amount : int)
+signal extract_finished(from : Vector2)
 
 func _ready() -> void:
 	progress_bar.visible = false
@@ -26,12 +26,12 @@ func run_drone_program(code: String, target_drone: Node2D):
 	var script = ExperimentalTranspiler.transpilar(code, "drone")
 	
 	# Mostrar retroalimentación
-	if PythonTranspiler.last_status == "success":
-		feedback_line.text = "[color=green]" + PythonTranspiler.last_feedback + "[/color]"
+	if ExperimentalTranspiler.last_status == "success":
+		feedback_line.text = "[color=green]" + ExperimentalTranspiler.last_feedback + "[/color]"
 	else:
-		var error_msg = PythonTranspiler.last_feedback
-		if PythonTranspiler.last_error_line > 0:
-			error_msg = "Línea " + str(PythonTranspiler.last_error_line) + ": " + error_msg
+		var error_msg = ExperimentalTranspiler.last_feedback
+		if ExperimentalTranspiler.last_error_line > 0:
+			error_msg = "Línea " + str(ExperimentalTranspiler.last_error_line) + ": " + error_msg
 		feedback_line.text = "[color=red]" + error_msg + "[/color]"
 	
 	if script == null:
@@ -170,7 +170,6 @@ func extract(grid_coords: Vector2, amount: int):
 				progress_bar.value = 0
 				var tween : Tween = get_tree().create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 				tween.tween_property(progress_bar, "value", 100, extract_delay)
-				print("Extrayendo mineral... " + str(i+1) + "/" + str(amount))
 				await tween.finished
 				collider.extract_mineral(extract_amount)
 				

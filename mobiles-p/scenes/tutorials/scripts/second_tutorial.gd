@@ -1,4 +1,4 @@
-extends Node
+extends Tutorial
 
 @onready var drones : Array = get_tree().get_nodes_in_group("drone")
 
@@ -13,6 +13,7 @@ var narrator_lines : Array[String] = [
 
 func _ready() -> void:
 	await get_tree().process_frame
+	load_tutorial()
 	PATHS.narrator.start_dialog(narrator_lines)
 	for drone in drones:
 		drone.extract_finished.connect(check_extract_finished)
@@ -33,3 +34,4 @@ func check_build_finished(structure_name : String, grid_coords : Vector2) -> voi
 		PATHS.narrator.start_dialog([
 			"¡Excelente trabajo, Ingeniero! Has construido tu primera defensa. Ahora estás listo para fortificar la base."
 		])
+		tutorial_completed()

@@ -69,12 +69,12 @@ func run_core_program(code: String, target_core: Node2D):
     var script = ExperimentalTranspiler.transpilar(code, "core")
     
     # Mostrar retroalimentación
-    if PythonTranspiler.last_status == "success":
-        feedback_line.text = "[color=green]" + PythonTranspiler.last_feedback + "[/color]"
+    if ExperimentalTranspiler.last_status == "success":
+        feedback_line.text = "[color=green]" + ExperimentalTranspiler.last_feedback + "[/color]"
     else:
-        var error_msg = PythonTranspiler.last_feedback
-        if PythonTranspiler.last_error_line > 0:
-            error_msg = "Línea " + str(PythonTranspiler.last_error_line) + ": " + error_msg
+        var error_msg = ExperimentalTranspiler.last_feedback
+        if ExperimentalTranspiler.last_error_line > 0:
+            error_msg = "Línea " + str(ExperimentalTranspiler.last_error_line) + ": " + error_msg
         feedback_line.text = "[color=red]" + error_msg + "[/color]"
     
     if script == null:

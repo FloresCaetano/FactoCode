@@ -13,6 +13,7 @@ var built_coords : Array[Vector2] = []
 
 func _ready() -> void:
 	await get_tree().process_frame
+	load_tutorial()
 	for x in range(5):
 		for y in range(2):
 			required_coords.append(Vector2(-12 + x, -14 + y))
@@ -30,3 +31,4 @@ func check_build_finished(structure_name : String, grid_coords : Vector2) -> voi
 			"Gran trabajo. Ya sabes usar bucles anidados para construir estructuras con grosor.",
 			"Con esto completas la introduccion a bucles."
 		])
+		tutorial_completed.emit()

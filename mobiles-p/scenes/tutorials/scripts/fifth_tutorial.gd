@@ -13,6 +13,8 @@ var built_coords : Array[Vector2] = []
 
 func _ready() -> void:
 	await get_tree().process_frame
+	load_tutorial()
+
 	for i in range(5):
 		required_coords.append(Vector2(-12 + i, -12))
 	PATHS.narrator.start_dialog(narrator_lines)
@@ -29,3 +31,4 @@ func check_build_finished(structure_name : String, grid_coords : Vector2) -> voi
 			"Excelente. Con un for puedes crear estructuras en linea de forma rapida.",
 			"Ahora aprenderemos a usar un for doble para crear una barrera con grosor."
 		])
+		tutorial_completed.emit()

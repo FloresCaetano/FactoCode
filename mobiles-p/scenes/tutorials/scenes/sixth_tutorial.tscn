@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cgdhwet7acewd"]
+
+[ext_resource type="Script" uid="uid://byv7tagfh0lqe" path="res://scenes/tutorials/scripts/sixth_tutorial.gd" id="1_uobn3"]
+
+[node name="sixth_tutorial" type="Node" unique_id=2048177714]
+script = ExtResource("1_uobn3")

@@ -13,6 +13,7 @@ var target_build_coords : Vector2 = Vector2(-12, -10)
 
 func _ready() -> void:
 	await get_tree().process_frame
+	load_tutorial()
 	PATHS.narrator.start_dialog(narrator_lines)
 	for drone in drones:
 		drone.build_finished.connect(check_build_finished)
@@ -23,3 +24,4 @@ func check_build_finished(structure_name : String, grid_coords : Vector2) -> voi
 			"Perfecto. Ese bucle while mantiene la base abastecida y automatiza la decision de minar o construir.",
 			"Ahora aprenderemos a usar bucles for para repetir acciones con un rango definido."
 		])
+		tutorial_completed()
