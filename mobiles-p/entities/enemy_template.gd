@@ -4,12 +4,12 @@ extends CharacterBody2D
 var hp : float = 100
 var strength : float = 10
 
-signal dead
+signal die
 
 
 func take_damage(amount: float) -> void:
 	hp -= amount
 	if hp <= 0:
-		dead.emit()
+		die.emit()
 		GLOBAL.enemies_alive -= 1
 		queue_free()

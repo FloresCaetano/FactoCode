@@ -18,7 +18,7 @@ func transpilar(user_text: String) -> GDScript:
 	var http_request = HTTPRequest.new()
 	add_child(http_request)
 
-	var url = "http://127.0.0.1:5000/compile"
+	var url = GLOBAL.api_url("/compile")
 	var headers = ["Content-Type: application/json"]
 	var body = JSON.stringify({"code": user_text})
 

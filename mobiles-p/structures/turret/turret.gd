@@ -24,7 +24,7 @@ func shoot():
 func _physics_process(_delta: float) -> void:
 	if enemies.size() != 0 and not active_target:
 		active_target = enemies.pop_back()
-		active_target.dead.connect(_on_enemy_dead)
+		active_target.die.connect(_on_enemy_dead)
 	
 	if active_target and cooldown_timer.is_stopped():
 		top.look_at(active_target.global_position)

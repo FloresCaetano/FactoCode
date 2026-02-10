@@ -11,8 +11,7 @@ extends StaticBody2D
 @export var sprite_2d: Sprite2D
 
 func _ready() -> void:
-	if Engine.is_editor_hint():
-		update_mineral_texture()
+	update_mineral_texture()
 
 func _process(_delta: float) -> void:
 	if Engine.is_editor_hint():

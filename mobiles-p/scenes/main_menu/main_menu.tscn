@@ -1,0 +1,152 @@
+[gd_scene format=3 uid="uid://dhupkiri8hsey"]
+
+[ext_resource type="Texture2D" uid="uid://cxxem0rbqm8hw" path="res://scenes/main_menu/main_menu_bg.png" id="1_0ebjn"]
+[ext_resource type="Script" uid="uid://chxnnkq36hdkl" path="res://scenes/main_menu/main_menu.gd" id="1_ob46e"]
+[ext_resource type="Theme" uid="uid://cn0yt7d74gn8t" path="res://gui/SimpleBox.tres" id="2_ob46e"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ob46e"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.278431, 0.231373, 0.470588, 1)
+border_color = Color(0.301961, 0.65098, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uqeha"]
+content_margin_left = 7.0
+content_margin_top = 7.0
+content_margin_right = 7.0
+content_margin_bottom = 7.0
+bg_color = Color(0.17233932, 0.14044604, 0.3038991, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="MainMenu" type="Control" unique_id=1313009683 node_paths=PackedStringArray("inp_endpoint", "options_container")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ob46e")
+inp_endpoint = NodePath("TextureRect/MarginContainer/HBoxContainer/OptionsContainer/TextEdit/MarginContainer/VBoxContainer/OptEndpoint/InpEndpoint")
+options_container = NodePath("TextureRect/MarginContainer/HBoxContainer/OptionsContainer")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2071328828]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_0ebjn")
+expand_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="TextureRect" unique_id=929819353]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 265
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 70
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TextureRect/MarginContainer" unique_id=1680033491]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/MarginContainer/HBoxContainer" unique_id=1953865750]
+layout_mode = 2
+size_flags_horizontal = 6
+alignment = 2
+
+[node name="BtnPlay" type="Button" parent="TextureRect/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1011274765]
+custom_minimum_size = Vector2(250, 60)
+layout_mode = 2
+theme = ExtResource("2_ob46e")
+text = "Jugar"
+
+[node name="BtnConfig" type="Button" parent="TextureRect/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1292721928]
+custom_minimum_size = Vector2(250, 60)
+layout_mode = 2
+theme = ExtResource("2_ob46e")
+text = "Configuraciones"
+
+[node name="BtnLeave" type="Button" parent="TextureRect/MarginContainer/HBoxContainer/VBoxContainer" unique_id=973176499]
+custom_minimum_size = Vector2(250, 60)
+layout_mode = 2
+theme = ExtResource("2_ob46e")
+text = "Salir"
+
+[node name="OptionsContainer" type="Control" parent="TextureRect/MarginContainer/HBoxContainer" unique_id=1085886776]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextEdit" type="TextEdit" parent="TextureRect/MarginContainer/HBoxContainer/OptionsContainer" unique_id=489782068]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 235.0
+offset_right = -46.0
+offset_bottom = -98.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_ob46e")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ob46e")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_ob46e")
+editable = false
+context_menu_enabled = false
+emoji_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+middle_mouse_paste_enabled = false
+empty_selection_clipboard_enabled = false
+
+[node name="MarginContainer" type="MarginContainer" parent="TextureRect/MarginContainer/HBoxContainer/OptionsContainer/TextEdit" unique_id=969955900]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/MarginContainer/HBoxContainer/OptionsContainer/TextEdit/MarginContainer" unique_id=42741217]
+layout_mode = 2
+alignment = 1
+
+[node name="OptEndpoint" type="HBoxContainer" parent="TextureRect/MarginContainer/HBoxContainer/OptionsContainer/TextEdit/MarginContainer/VBoxContainer" unique_id=1331019525]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="TextureRect/MarginContainer/HBoxContainer/OptionsContainer/TextEdit/MarginContainer/VBoxContainer/OptEndpoint" unique_id=1008763613]
+layout_mode = 2
+theme = ExtResource("2_ob46e")
+text = "Endpoint IP: "
+
+[node name="InpEndpoint" type="LineEdit" parent="TextureRect/MarginContainer/HBoxContainer/OptionsContainer/TextEdit/MarginContainer/VBoxContainer/OptEndpoint" unique_id=287326310]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme = ExtResource("2_ob46e")
+theme_override_styles/normal = SubResource("StyleBoxFlat_uqeha")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_uqeha")
+
+[connection signal="pressed" from="TextureRect/MarginContainer/HBoxContainer/VBoxContainer/BtnPlay" to="." method="_on_btn_play_pressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/HBoxContainer/VBoxContainer/BtnConfig" to="." method="_on_btn_config_pressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/HBoxContainer/VBoxContainer/BtnLeave" to="." method="_on_btn_leave_pressed"]
+[connection signal="text_changed" from="TextureRect/MarginContainer/HBoxContainer/OptionsContainer/TextEdit/MarginContainer/VBoxContainer/OptEndpoint/InpEndpoint" to="." method="_on_inp_endpoint_text_changed"]

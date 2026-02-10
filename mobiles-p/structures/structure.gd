@@ -1,7 +1,12 @@
 class_name Structure
 extends StaticBody2D
 
-@export var health : int = 100
+@export var health : int = 100:
+	set(value):
+		health = value
+		if progress_var:
+			progress_var.max_value = max(progress_var.max_value, health)
+			progress_var.value = health
 var progress_var : ProgressBar = null
 
 signal destroyed
@@ -11,12 +16,12 @@ func take_damage(damage_amount: int) -> void:
 
 	progress_var.visible = true
 	progress_var.value = health
-
 	if health <= 0:
 		destroyed.emit()
 		queue_free()
 
-func _init():
+
+func _init() -> void:
 	progress_var = load(PATHS.COMPONENTS["progress_bar"]).instantiate()
 	add_child(progress_var)
 	progress_var.position = Vector2(0, -50)

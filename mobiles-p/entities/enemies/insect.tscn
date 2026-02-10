@@ -37,7 +37,6 @@ collision_shape = NodePath("../CollisionShape2D")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1725685468]
 path_postprocessing = 1
 avoidance_enabled = true
-debug_enabled = true
 
 [node name="SearchArea" type="Area2D" parent="." unique_id=1761702184]
 
@@ -53,7 +52,11 @@ one_shot = true
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_vcbd1")
 
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=2092230176]
+
 [connection signal="target_reached" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_target_reached"]
 [connection signal="body_entered" from="SearchArea" to="." method="_on_search_area_body_entered"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
 [connection signal="body_entered" from="CollisionDetector" to="." method="_on_collision_detector_body_entered"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

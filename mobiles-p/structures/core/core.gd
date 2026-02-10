@@ -53,12 +53,12 @@ func craft_drone() -> void:
 
 func craft_structure(structure_name : String) -> bool:
     match structure_name:
-        "torreta":
+        "turret":
             if inventory[GLOBAL.mineral_names[0]] >= 2:
                 inventory[GLOBAL.mineral_names[0]] -= 2
                 inventory["turrets"] += 1
                 return true
-        "barrera":
+        "barrier":
             if inventory[GLOBAL.mineral_names[1]] >= 2:
                 inventory[GLOBAL.mineral_names[1]] -= 2
                 inventory["barriers"] += 1

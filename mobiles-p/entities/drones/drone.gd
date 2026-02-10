@@ -162,11 +162,13 @@ func extract(grid_coords: Vector2, amount: int):
 	var result = space_state.intersect_point(query)
 	
 	if result.size() > 0:
-		
+		print("detecto mineral")
 		var collider = result[0].collider
 
 		if collider is Mineral:
+			print("es mineral")
 			for i in amount:
+				print("inicia mineralizacion")
 				progress_bar.value = 0
 				var tween : Tween = get_tree().create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 				tween.tween_property(progress_bar, "value", 100, extract_delay)

@@ -8,6 +8,15 @@ var PATHS = {
 	"p_bullet" : "uid://l4s2abrexjtb"
 }
 
+var api_host : String = "192.168.18.3"#"127.0.0.1"
+var api_port : int = 5000
+
+func api_url(path: String) -> String:
+	var normalized = path
+	if not normalized.begins_with("/"):
+		normalized = "/" + normalized
+	return "http://" + api_host + ":" + str(api_port) + normalized
+
 var core_health : int:
 	get:
 		return PATHS.core.health

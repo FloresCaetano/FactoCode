@@ -9,10 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bt36wmqt7bq1t" path="res://structures/core/core.tscn" id="7_c16ls"]
 [ext_resource type="PackedScene" uid="uid://gmybxcays5sa" path="res://shared/narrator/narrator.tscn" id="8_18nlu"]
 [ext_resource type="PackedScene" uid="uid://bo7fswakyq6n8" path="res://gui/gui.tscn" id="10_6wevv"]
-[ext_resource type="PackedScene" uid="uid://cwr7wc05kwfiw" path="res://structures/turret/turret.tscn" id="11_4w45t"]
-[ext_resource type="PackedScene" uid="uid://bjplqihi53swl" path="res://entities/enemies/insect.tscn" id="12_r6p65"]
 [ext_resource type="PackedScene" uid="uid://cnid470j0pwqn" path="res://scenes/tutorials/scenes/first_tutorial.tscn" id="13_4w45t"]
-[ext_resource type="PackedScene" uid="uid://bllpwsppr7qpc" path="res://structures/barrier/barrier.tscn" id="13_si52b"]
 [ext_resource type="Script" uid="uid://cum1856x3pdf2" path="res://shared/components/waves_controller/waves_controller.gd" id="14_r6p65"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7ykc4"]
@@ -42,7 +39,39 @@ texture = ExtResource("2_pw63i")
 
 [node name="Mineral" parent="Structures" unique_id=1126198289 instance=ExtResource("6_rt2n2")]
 position = Vector2(-500, 300)
-quantity = 20
+quantity = 10000
+
+[node name="Mineral4" parent="Structures" unique_id=1073797083 instance=ExtResource("6_rt2n2")]
+position = Vector2(-100, 600)
+quantity = 10000
+
+[node name="Mineral2" parent="Structures" unique_id=2023587634 instance=ExtResource("6_rt2n2")]
+position = Vector2(-500, 700)
+mineral_type = "blue_mineral"
+quantity = 10000
+
+[node name="Mineral3" parent="Structures" unique_id=1891163621 instance=ExtResource("6_rt2n2")]
+position = Vector2(-900, 600)
+mineral_type = "blue_mineral"
+quantity = 10000
+
+[node name="Mineral5" parent="Structures" unique_id=239813856 instance=ExtResource("6_rt2n2")]
+position = Vector2(1200, -900)
+quantity = 10000
+
+[node name="Mineral6" parent="Structures" unique_id=170826901 instance=ExtResource("6_rt2n2")]
+position = Vector2(1600, -600)
+quantity = 10000
+
+[node name="Mineral7" parent="Structures" unique_id=1561747926 instance=ExtResource("6_rt2n2")]
+position = Vector2(1200, -500)
+mineral_type = "blue_mineral"
+quantity = 10000
+
+[node name="Mineral8" parent="Structures" unique_id=1556332377 instance=ExtResource("6_rt2n2")]
+position = Vector2(800, -600)
+mineral_type = "blue_mineral"
+quantity = 10000
 
 [node name="Core" parent="Structures" unique_id=2111182110 instance=ExtResource("7_c16ls")]
 
@@ -59,26 +88,6 @@ navigation_polygon = SubResource("NavigationPolygon_c16ls")
 [node name="Narrator" parent="." unique_id=746222025 instance=ExtResource("8_18nlu")]
 
 [node name="GUI" parent="." unique_id=1947475055 instance=ExtResource("10_6wevv")]
-
-[node name="Turret" parent="." unique_id=1360103605 instance=ExtResource("11_4w45t")]
-position = Vector2(1100, -400)
-
-[node name="Insect" parent="." unique_id=739874131 instance=ExtResource("12_r6p65")]
-position = Vector2(2400, -1500)
-
-[node name="Insect2" parent="." unique_id=259399941 instance=ExtResource("12_r6p65")]
-position = Vector2(-1700, -4300)
-
-[node name="Insect3" parent="." unique_id=1465867215 instance=ExtResource("12_r6p65")]
-position = Vector2(-2800, -2900)
-
-[node name="Insect4" parent="." unique_id=1307592652 instance=ExtResource("12_r6p65")]
-position = Vector2(200, -3100)
-
-[node name="Barrier" parent="." unique_id=109805430 instance=ExtResource("13_si52b")]
-position = Vector2(1400, -700)
-
-[node name="FirstTutorial" parent="." unique_id=504242355 instance=ExtResource("13_4w45t")]
 
 [node name="WavesController" type="Node2D" parent="." unique_id=1835057609]
 script = ExtResource("14_r6p65")
@@ -100,3 +109,5 @@ position = Vector2(400, 10400)
 
 [node name="sp6" type="Marker2D" parent="WavesController" unique_id=760927444]
 position = Vector2(-20300, 10400)
+
+[node name="FirstTutorial" parent="." unique_id=504242355 instance=ExtResource("13_4w45t")]

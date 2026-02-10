@@ -2,7 +2,7 @@ extends HBoxContainer
 
 @export var code_edit : CodeEdit
 @export var feedback_line : RichTextLabel
-@export var endpoint_url : String = "http://127.0.0.1:5000/ask_ia"
+@export var endpoint_path : String = "/ask_ia"
 
 @onready var ia_helper_button: Button = $IaHelperButton
 
@@ -23,7 +23,7 @@ func _on_ia_helper_button_pressed() -> void:
 		"error": feedback_line.text
 	}
 	var headers = ["Content-Type: application/json"]
-	var err = http_request.request(endpoint_url, headers, HTTPClient.METHOD_POST, JSON.stringify(payload))
+	var err = http_request.request(GLOBAL.api_url(endpoint_path), headers, HTTPClient.METHOD_POST, JSON.stringify(payload))
 	if err != OK:
 		feedback_line.text = "[color=red]IA request failed to start[/color]"
 		print(feedback_line.text)

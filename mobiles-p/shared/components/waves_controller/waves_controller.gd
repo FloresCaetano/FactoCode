@@ -19,7 +19,7 @@ func get_wave_data() -> Dictionary:
 		"codigo": int(PATHS.drones_built)
 	}
 	var headers = ["Content-Type: application/json"]
-	var err = http_request.request("http://127.0.0.1:5000/predict", headers, HTTPClient.METHOD_POST, JSON.stringify(payload))
+	var err = http_request.request(GLOBAL.api_url("/predict"), headers, HTTPClient.METHOD_POST, JSON.stringify(payload))
 	if err != OK:
 		http_request.queue_free()
 		return {"enemigos": enemy_ammount, "hp": enemy_hp}
@@ -48,20 +48,30 @@ func start_wave() -> void:
 	GLOBAL.enemies_alive = wave_data.enemigos
 	GLOBAL.wave_number += 1
 
-	var enemy_per_spawner = int(ceil(float(wave_data.enemigos) / spawners.size()))
+	if spawners.is_empty():
+		return
 
-	for spawner in spawners:
-		var insect_scene : PackedScene = load("uid://bjplqihi53swl")
-		for i in range(enemy_per_spawner):
+	var enemy_per_spawner = int(ceil(float(wave_data.enemigos) / spawners.size()))
+	var remaining = int(wave_data.enemigos)
+	var insect_scene : PackedScene = load("uid://bjplqihi53swl")
+
+	for round_index in range(enemy_per_spawner):
+		for spawner in spawners:
+			if remaining <= 0:
+				break
 			var enemy : Node2D = insect_scene.instantiate()
+			enemy.die.connect(_on_enemy_die)
 			spawner.add_child(enemy)
 			enemy.global_position = spawner.global_position
 			enemy.hp = wave_data.hp
+			remaining -= 1
+		if remaining > 0:
+			await get_tree().create_timer(1.0).timeout
 
 func end_wave() -> void:
 	PATHS.btn_next_wave.disabled = false
 
-func _process(_delta: float) -> void:
+func _on_enemy_die() -> void:
+	GLOBAL.enemies_alive -= 1
 	if GLOBAL.enemies_alive <= 0:
 		end_wave()
-	
