@@ -7,7 +7,47 @@
 [ext_resource type="Texture2D" uid="uid://b1qw5j37cewg0" path="res://assets/sprites/turret_top.png" id="4_kvi6p"]
 [ext_resource type="Texture2D" uid="uid://cu61xj7pkocim" path="res://assets/sprites/Barrier.png" id="5_xqkfk"]
 
+[sub_resource type="GDScript" id="GDScript_ytf3d"]
+script/source = "extends Button
+
+func _ready() -> void:
+	PATHS.btn_next_wave = self
+"
+
+[sub_resource type="GDScript" id="GDScript_bk7cs"]
+script/source = "extends Label
+
+func _process(_delta: float) -> void:
+	text = \"Oleada: \" + str(GLOBAL.wave_number)
+"
+
 [node name="GUI" type="CanvasLayer" unique_id=1947475055]
+
+[node name="Control" type="MarginContainer" parent="." unique_id=301918617]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -176.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control" unique_id=200992206]
+layout_mode = 2
+
+[node name="BtnNextWave" type="Button" parent="Control/VBoxContainer" unique_id=1812781589]
+layout_mode = 2
+theme = ExtResource("2_ytf3d")
+disabled = true
+text = "SIGUIENTE OLEADA"
+script = SubResource("GDScript_ytf3d")
+
+[node name="ActualWave" type="Label" parent="Control/VBoxContainer" unique_id=1948217684]
+layout_mode = 2
+theme = ExtResource("2_ytf3d")
+text = "Oleadas: "
+script = SubResource("GDScript_bk7cs")
 
 [node name="InventoryViewer" type="VBoxContainer" parent="." unique_id=1298879135]
 offset_right = 40.0

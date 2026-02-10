@@ -49,6 +49,7 @@ func craft_drone() -> void:
                 drone.global_position = collider.global_position + Vector2(0, -100)
         
         last_drone_built_position = drone.global_position
+        GLOBAL.drones_built += 1
 
 func craft_structure(structure_name : String) -> bool:
     match structure_name:

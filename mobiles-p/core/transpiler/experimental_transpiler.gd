@@ -287,7 +287,15 @@ func transform_target_function(line: String, func_name: String) -> Dictionary:
 	match func_name:
 		"move":
 			# move(Vector2(...))
-			var transformed_args = transform_expression(args)
+			var parts = split_args(args)
+			if parts.size() != 1:
+				result.error = "move() requiere 1 argumento (Vector2)"
+				return result
+			var raw_arg = parts[0].strip_edges()
+			if not raw_arg.begins_with("Vector2(") and not is_valid_variable_name(raw_arg):
+				result.error = "move() requiere Vector2(x, y)"
+				return result
+			var transformed_args = transform_expression(raw_arg)
 			result.code = _target_var + ".move(" + transformed_args + "); await " + _target_var + ".move_finished"
 		
 		"build":

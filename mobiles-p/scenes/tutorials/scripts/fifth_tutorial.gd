@@ -31,4 +31,4 @@ func check_build_finished(structure_name : String, grid_coords : Vector2) -> voi
 			"Excelente. Con un for puedes crear estructuras en linea de forma rapida.",
 			"Ahora aprenderemos a usar un for doble para crear una barrera con grosor."
 		])
-		tutorial_completed.emit()
+		tutorial_completed()

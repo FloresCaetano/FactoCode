@@ -1,14 +1,15 @@
 class_name Enemy
 extends CharacterBody2D
 
-var life : float = 100
-var strenght : float = 10
+var hp : float = 100
+var strength : float = 10
 
 signal dead
 
 
 func take_damage(amount: float) -> void:
-	life -= amount
-	if life <= 0:
+	hp -= amount
+	if hp <= 0:
 		dead.emit()
+		GLOBAL.enemies_alive -= 1
 		queue_free()

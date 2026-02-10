@@ -16,6 +16,7 @@ radius = 45.3
 height = 224.9
 
 [node name="Insect" type="CharacterBody2D" unique_id=739874131 node_paths=PackedStringArray("rotatable_nodes")]
+collision_mask = 0
 script = ExtResource("1_i2i8d")
 rotatable_nodes = [NodePath("Sprite2D")]
 

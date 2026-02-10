@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://drj2di8o02rut" path="res://structures/core/core.gd" id="1_spwri"]
 [ext_resource type="Texture2D" uid="uid://c6nggcnas7io0" path="res://assets/sprites/Core.png" id="2_euq0h"]
 [ext_resource type="Theme" uid="uid://cn0yt7d74gn8t" path="res://gui/SimpleBox.tres" id="3_euq0h"]
+[ext_resource type="Script" uid="uid://d2b6lit8g2d6" path="res://shared/components/ia_helper.gd" id="4_rg714"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5634n"]
 size = Vector2(300, 300)
@@ -56,6 +57,20 @@ gutters_draw_line_numbers = true
 code_completion_enabled = true
 indent_automatic = true
 
+[node name="Ia" type="HBoxContainer" parent="Vbox" unique_id=48037578 node_paths=PackedStringArray("code_edit", "feedback_line")]
+layout_mode = 2
+alignment = 2
+script = ExtResource("4_rg714")
+code_edit = NodePath("../CodeEdit")
+feedback_line = NodePath("../FeedbackLine")
+
+[node name="IaHelperButton" type="Button" parent="Vbox/Ia" unique_id=1351802073]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Pide ayuda a la IA del core."
+theme = ExtResource("3_euq0h")
+text = "Ayuda"
+
 [node name="FeedbackLine" type="RichTextLabel" parent="Vbox" unique_id=1758031199]
 custom_minimum_size = Vector2(0, 65)
 layout_mode = 2
@@ -80,4 +95,5 @@ grow_vertical = 2
 one_shot = true
 
 [connection signal="pressed" from="Vbox/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Vbox/Ia/IaHelperButton" to="Vbox/Ia" method="_on_ia_helper_button_pressed"]
 [connection signal="gui_input" from="Control" to="." method="_on_control_gui_input"]

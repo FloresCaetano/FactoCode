@@ -16,3 +16,5 @@ func _on_btn_next_tutorial_pressed() -> void:
 		var next_scene_instance = next_tutorial_scene.instantiate()
 		add_sibling(next_scene_instance)
 		queue_free()
+	elif GLOBAL.is_tutorial_active:
+		PATHS.btn_next_wave.disabled = false

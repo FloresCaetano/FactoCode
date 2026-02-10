@@ -95,6 +95,7 @@ scale = Vector2(0.15, 0.15)
 texture = ExtResource("1_dil0n")
 
 [node name="Vbox" type="VBoxContainer" parent="." unique_id=1329162004]
+visible = false
 custom_minimum_size = Vector2(400, 500)
 offset_right = 400.0
 offset_bottom = 500.0
@@ -117,10 +118,12 @@ gutters_draw_line_numbers = true
 code_completion_enabled = true
 indent_automatic = true
 
-[node name="Ia" type="HBoxContainer" parent="Vbox" unique_id=242179082]
+[node name="Ia" type="HBoxContainer" parent="Vbox" unique_id=242179082 node_paths=PackedStringArray("code_edit", "feedback_line")]
 layout_mode = 2
 alignment = 2
 script = ExtResource("5_c31bm")
+code_edit = NodePath("../CodeEdit")
+feedback_line = NodePath("../FeedbackLine")
 
 [node name="IaHelperButton" type="Button" parent="Vbox/Ia" unique_id=1873036645]
 layout_mode = 2
@@ -133,6 +136,7 @@ custom_minimum_size = Vector2(0, 65)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("36")
+bbcode_enabled = true
 autowrap_mode = 2
 
 [node name="Control" type="Control" parent="." unique_id=82588491]
@@ -154,4 +158,5 @@ grow_vertical = 2
 
 [connection signal="pressed" from="Vbox/Button" to="." method="_on_button_pressed"]
 [connection signal="code_completion_requested" from="Vbox/CodeEdit" to="." method="_on_code_edit_code_completion_requested"]
+[connection signal="pressed" from="Vbox/Ia/IaHelperButton" to="Vbox/Ia" method="_on_ia_helper_button_pressed"]
 [connection signal="gui_input" from="Control" to="." method="_on_control_gui_input"]

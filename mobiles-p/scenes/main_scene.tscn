@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bjplqihi53swl" path="res://entities/enemies/insect.tscn" id="12_r6p65"]
 [ext_resource type="PackedScene" uid="uid://cnid470j0pwqn" path="res://scenes/tutorials/scenes/first_tutorial.tscn" id="13_4w45t"]
 [ext_resource type="PackedScene" uid="uid://bllpwsppr7qpc" path="res://structures/barrier/barrier.tscn" id="13_si52b"]
+[ext_resource type="Script" uid="uid://cum1856x3pdf2" path="res://shared/components/waves_controller/waves_controller.gd" id="14_r6p65"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7ykc4"]
 shader = ExtResource("1_w2twt")
@@ -65,7 +66,37 @@ position = Vector2(1100, -400)
 [node name="Insect" parent="." unique_id=739874131 instance=ExtResource("12_r6p65")]
 position = Vector2(2400, -1500)
 
+[node name="Insect2" parent="." unique_id=259399941 instance=ExtResource("12_r6p65")]
+position = Vector2(-1700, -4300)
+
+[node name="Insect3" parent="." unique_id=1465867215 instance=ExtResource("12_r6p65")]
+position = Vector2(-2800, -2900)
+
+[node name="Insect4" parent="." unique_id=1307592652 instance=ExtResource("12_r6p65")]
+position = Vector2(200, -3100)
+
 [node name="Barrier" parent="." unique_id=109805430 instance=ExtResource("13_si52b")]
 position = Vector2(1400, -700)
 
 [node name="FirstTutorial" parent="." unique_id=504242355 instance=ExtResource("13_4w45t")]
+
+[node name="WavesController" type="Node2D" parent="." unique_id=1835057609]
+script = ExtResource("14_r6p65")
+
+[node name="sp1" type="Marker2D" parent="WavesController" unique_id=1128863973]
+position = Vector2(-19600, -10900)
+
+[node name="sp2" type="Marker2D" parent="WavesController" unique_id=55726689]
+position = Vector2(0, -10800)
+
+[node name="sp3" type="Marker2D" parent="WavesController" unique_id=1961639321]
+position = Vector2(23100, -10900)
+
+[node name="sp4" type="Marker2D" parent="WavesController" unique_id=1422234756]
+position = Vector2(23900, 9400)
+
+[node name="sp5" type="Marker2D" parent="WavesController" unique_id=1234926696]
+position = Vector2(400, 10400)
+
+[node name="sp6" type="Marker2D" parent="WavesController" unique_id=760927444]
+position = Vector2(-20300, 10400)

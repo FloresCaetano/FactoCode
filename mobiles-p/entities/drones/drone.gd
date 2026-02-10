@@ -132,9 +132,9 @@ func build(structure_name : String, grid_coords: Vector2):
 
 	var structure_uid : String = ""
 	match  structure_name:
-		"torreta":
+		"turret":
 			structure_uid = GLOBAL.PATHS.p_turret
-		"barrera":
+		"barrier":
 			structure_uid = GLOBAL.PATHS.p_barrier
 	
 	var structure : StaticBody2D = load(structure_uid).instantiate()

@@ -4,8 +4,8 @@ extends Node2D
 @export var collision_shape : CollisionShape2D
 
 func receive_damage(damage : float):
-	target.life -= damage
-	if target.life <= 0:
+	target.hp -= damage
+	if target.hp <= 0:
 		if target.has_signal("dead"):
 			target.dead.emit()
 		target.queue_free()
